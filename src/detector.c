@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <libgen.h>
 #include "darknet.h"
 #include "network.h"
 #include "region_layer.h"
@@ -1679,6 +1680,14 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
         }
         draw_detections_v3(im, dets, nboxes, thresh, names, alphabet, l.classes, ext_output);
         save_image(im, "predictions");
+
+		// Create image in output directory
+		char output_image_file[1024];
+		strcpy(output_image_file, "./output/");
+		strcat(output_image_file, basename(input));
+		printf("Saving detection to %s\n", output_image_file);
+		save_image(im, output_image_file);
+
         if (!dont_show) {
             show_image(im, "predictions");
         }
